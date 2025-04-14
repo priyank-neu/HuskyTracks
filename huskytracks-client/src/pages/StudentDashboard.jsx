@@ -13,6 +13,9 @@ import axios from "axios";
 import LostItemCard from "../components/LostItemCard";
 import DashboardNavbar from "../components/DashboardNavbar";
 import HeroSpotlight from "../components/HeroSpotlight";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Footer1 from "../components/Footer1";
 
 const StudentDashboard = () => {
   const [items, setItems] = useState([]);
@@ -82,7 +85,43 @@ const StudentDashboard = () => {
           )}
         </Grid>
 
+        {/* Helpful Tips Accordion */}
+        <Accordion
+          sx={{
+            mt: 6,
+            borderRadius: 2,
+            backgroundColor: "#fdecea", // soft red
+            border: "1px solid #fca5a5",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: "#991b1b" }} />}
+            aria-controls="tips-content"
+            id="tips-header"
+          >
+            <Typography variant="h6" sx={{ fontWeight: 600, color: "#991b1b" }}>
+              💡 Helpful Tips & Campus Safety
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              🛡️ Label your belongings with your name or NU ID.
+            </Typography>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              🎒 Don’t leave valuables unattended in study areas.
+            </Typography>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              📍 Use lockers or secure zones like Curry, Marino.
+            </Typography>
+            <Typography sx={{ color: "#7f1d1d" }}>
+              📸 Upload clear images when submitting lost items.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
       </Box>
+      <Footer1 />
     </>
   );
 };
