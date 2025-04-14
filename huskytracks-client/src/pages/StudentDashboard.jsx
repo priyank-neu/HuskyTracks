@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
-  Button,
   Grid,
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardNavbar from "../components/DashboardNavbar";
+import HeroSpotlight from "../components/HeroSpotlight";
 
 const StudentDashboard = () => {
   const [items, setItems] = useState([]);
@@ -33,30 +33,30 @@ const StudentDashboard = () => {
     if (user?.email) fetchItems();
   }, [user]);
 
-  const handleReportClick = () => {
-    navigate("/report-lost-item");
-  };
-
   return (
     <>
       <DashboardNavbar role="student" />
-      <Box sx={{ p: { xs: 2, md: 4 } }}>
+
+      <Box
+        sx={{
+          p: { xs: 2, md: 4 },
+          backgroundColor: "#fdfdfd",
+          minHeight: "100vh",
+        }}
+      >
+        {/* Spotlight Hero Section */}
+        <HeroSpotlight userEmail={user.email} />
+
+        {/* Section Title */}
         <Typography
-          variant="h4"
-          sx={{ mb: 2, fontWeight: "bold", color: "#b00020" }}
+          variant="h5"
+          sx={{
+            mb: 3,
+            fontWeight: 600,
+            color: "#333",
+            textAlign: "center",
+          }}
         >
-          Welcome, {user.email}
-        </Typography>
-
-        <Button
-          variant="contained"
-          sx={{ mb: 4, backgroundColor: "#b00020" }}
-          onClick={handleReportClick}
-        >
-          Report a Lost Item
-        </Button>
-
-        <Typography variant="h5" sx={{ mb: 2 }}>
           Your Lost Item Reports
         </Typography>
 
@@ -68,33 +68,57 @@ const StudentDashboard = () => {
           ) : (
             items.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item._id}>
-                <Card sx={{ height: "100%" }}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    borderRadius: "12px",
+                    border: "1px solid #e0e0e0",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+                    transition: "all 0.3s ease-in-out",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                    },
+                  }}
+                >
                   {item.imageUrl && (
                     <CardMedia
                       component="img"
                       height="180"
                       image={item.imageUrl}
-                      alt="Lost Item"
+                      alt={item.title}
+                      sx={{ objectFit: "cover" }}
                     />
                   )}
                   <CardContent>
-                    <Typography variant="h6">{item.title}</Typography>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                      {item.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 1, color: "#444" }}>
                       {item.description}
                     </Typography>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      📍 {item.locationName}
+                    <Typography variant="body2" sx={{ mt: 1, color: "#777" }}>
+                      📍 <strong>{item.locationName}</strong>
                     </Typography>
+
                     <Chip
                       label={item.status}
-                      color={
-                        item.status === "Returned"
-                          ? "success"
-                          : item.status === "Matched"
-                          ? "warning"
-                          : "default"
-                      }
-                      sx={{ mt: 2 }}
+                      sx={{
+                        mt: 2,
+                        fontWeight: 500,
+                        color: "#fff",
+                        backgroundColor:
+                          item.status === "Returned"
+                            ? "#22c55e"
+                            : item.status === "Matched"
+                            ? "#facc15"
+                            : item.status === "Transferred to NUPD"
+                            ? "#94a3b8"
+                            : "#999",
+                      }}
                     />
                   </CardContent>
                 </Card>
