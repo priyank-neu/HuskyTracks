@@ -10,8 +10,12 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LostItemCard from "../components/LostItemCard";
 import DashboardNavbar from "../components/DashboardNavbar";
 import HeroSpotlight from "../components/HeroSpotlight";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Footer1 from "../components/Footer1";
 
 const StudentDashboard = () => {
   const [items, setItems] = useState([]);
@@ -40,8 +44,9 @@ const StudentDashboard = () => {
       <Box
         sx={{
           p: { xs: 2, md: 4 },
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#f9fafb",
           minHeight: "100vh",
+          p: { xs: 2, md: 4 },
         }}
       >
         {/* Spotlight Hero Section */}
@@ -49,18 +54,24 @@ const StudentDashboard = () => {
 
         {/* Section Title */}
         <Typography
-          variant="h5"
+          variant="h4"
+          component="h2"
           sx={{
-            mb: 3,
-            fontWeight: 600,
-            color: "#333",
+            mb: 5,
+            fontWeight: 700,
+            color: "#1f2937",
             textAlign: "center",
           }}
         >
           Your Lost Item Reports
         </Typography>
 
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={4}
+          justifyContent="center"
+          alignItems="stretch"
+        >
           {items.length === 0 ? (
             <Typography variant="body1" sx={{ color: "#666", pl: 2 }}>
               You haven't reported any lost items yet.
@@ -68,65 +79,49 @@ const StudentDashboard = () => {
           ) : (
             items.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item._id}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    borderRadius: "12px",
-                    border: "1px solid #e0e0e0",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-                    transition: "all 0.3s ease-in-out",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
-                    },
-                  }}
-                >
-                  {item.imageUrl && (
-                    <CardMedia
-                      component="img"
-                      height="180"
-                      image={item.imageUrl}
-                      alt={item.title}
-                      sx={{ objectFit: "cover" }}
-                    />
-                  )}
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      {item.title}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1, color: "#444" }}>
-                      {item.description}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1, color: "#777" }}>
-                      📍 <strong>{item.locationName}</strong>
-                    </Typography>
-
-                    <Chip
-                      label={item.status}
-                      sx={{
-                        mt: 2,
-                        fontWeight: 500,
-                        color: "#fff",
-                        backgroundColor:
-                          item.status === "Returned"
-                            ? "#22c55e"
-                            : item.status === "Matched"
-                            ? "#facc15"
-                            : item.status === "Transferred to NUPD"
-                            ? "#94a3b8"
-                            : "#999",
-                      }}
-                    />
-                  </CardContent>
-                </Card>
+                <LostItemCard item={item} />
               </Grid>
             ))
           )}
         </Grid>
+
+        {/* Helpful Tips Accordion */}
+        <Accordion
+          sx={{
+            mt: 6,
+            borderRadius: 2,
+            backgroundColor: "#fdecea", // soft red
+            border: "1px solid #fca5a5",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: "#991b1b" }} />}
+            aria-controls="tips-content"
+            id="tips-header"
+          >
+            <Typography variant="h6" sx={{ fontWeight: 600, color: "#991b1b" }}>
+              💡 Helpful Tips & Campus Safety
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              🛡️ Label your belongings with your name or NU ID.
+            </Typography>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              🎒 Don’t leave valuables unattended in study areas.
+            </Typography>
+            <Typography sx={{ mb: 0.5, color: "#7f1d1d" }}>
+              📍 Use lockers or secure zones like Curry, Marino.
+            </Typography>
+            <Typography sx={{ color: "#7f1d1d" }}>
+              📸 Upload clear images when submitting lost items.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
       </Box>
+      <Footer1 />
     </>
   );
 };
