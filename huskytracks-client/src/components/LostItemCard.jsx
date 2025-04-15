@@ -11,10 +11,12 @@ import {
 const LostItemCard = ({ item }) => {
   const statusColor =
     item.status === "Returned"
-      ? "#15803d" // more muted green
+      ? "#15803d"
       : item.status === "Transferred to NUPD"
-      ? "#374151" // consistent dark grey
-      : "#facc15"; // soft yellow
+      ? "#374151"
+      : "#facc15";
+
+  const fallbackImg = "https://via.placeholder.com/330x160.png?text=No+Image";
 
   return (
     <Card
@@ -37,19 +39,18 @@ const LostItemCard = ({ item }) => {
         },
       }}
     >
-      {item.imageUrl && (
-        <CardMedia
-          component="img"
-          height="160"
-          image={item.imageUrl}
-          alt={item.title}
-          sx={{
-            objectFit: "cover",
-            borderTopLeftRadius: "12px",
-            borderTopRightRadius: "12px",
-          }}
-        />
-      )}
+      <CardMedia
+        component="img"
+        height="160"
+        image={item.imageUrl || fallbackImg}
+        alt={item.title}
+        onError={(e) => (e.target.src = fallbackImg)}
+        sx={{
+          objectFit: "cover",
+          borderTopLeftRadius: "12px",
+          borderTopRightRadius: "12px",
+        }}
+      />
       <CardContent sx={{ px: 2.5 }}>
         <Typography
           variant="h6"
