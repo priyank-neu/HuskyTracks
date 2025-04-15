@@ -46,7 +46,7 @@ const StudentDashboard = () => {
           p: { xs: 2, md: 4 },
           backgroundColor: "#f9fafb",
           minHeight: "100vh",
-          p: { xs: 2, md: 4 },
+          
         }}
       >
         {/* Spotlight Hero Section */}
