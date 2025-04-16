@@ -22,7 +22,7 @@ const testimonials = [
         name: "Jenny Wilson",
         role: "Grad Student @ CPS",
         quote:
-            "I love how focused this site is on student needs. It’s professional but built with the NU campus in mind.",
+            "I love how focused this site is on student needs. It's professional but built with the NU campus in mind.",
         avatar:
             "https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png",
     },
@@ -40,7 +40,7 @@ const TestimonialsSection = () => {
                     {testimonials.map((t, index) => (
                         <div className="testimonial-card" key={index}>
                             <div className="stars">★★★★★</div>
-                            <p className="quote">“{t.quote}”</p>
+                            <p className="quote">"{t.quote}"</p>
                             <div className="author-info">
                                 <img src={t.avatar} alt={t.name} className="avatar" />
                                 <div>

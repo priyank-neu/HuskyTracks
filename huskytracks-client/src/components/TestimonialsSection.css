@@ -83,6 +83,7 @@
 
 .author-info {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 0.75rem;
 }
@@ -99,12 +100,14 @@
     color: #111827;
     font-size: 0.95rem;
     margin: 0;
+    text-align: left;
 }
 
 .role {
     color: #6b7280;
     font-size: 0.8rem;
     margin: 0;
+    text-align: left;
 }
 
 .glow-wrapper {
