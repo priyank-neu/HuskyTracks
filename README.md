@@ -19,6 +19,7 @@ HuskyTracks is a comprehensive lost and found management system for Northeastern
 - **Category Filtering**: Filter items by categories (Electronics, Clothing, Books, etc.)
 - **Status Tabs**: Quick tabs for All Items, Active (Matched), and Resolved items
 - **Item Selection**: Select items to highlight them on the map
+- **Real Time Data Display**: Selected items list is displayed on Administrator Dashboard
 - **Item Reports**: Detailed form for reporting lost items with location picker
 
 ### Backend System
