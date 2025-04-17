@@ -22,13 +22,24 @@ const upload = multer({ storage });
 // ✅ 1. Student reports lost item
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { title, description, locationName, submittedBy } = req.body;
-    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    const { title, description, coordinates, submittedBy } = req.body;
+    const imageUrl = req.file ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}` : null;
+
+    // Parse coordinates from string to array
+    let parsedCoordinates;
+    try {
+      parsedCoordinates = JSON.parse(coordinates);
+      if (!Array.isArray(parsedCoordinates) || parsedCoordinates.length !== 2) {
+        throw new Error('Invalid coordinates format');
+      }
+    } catch (error) {
+      return res.status(400).json({ message: "Invalid coordinates format" });
+    }
 
     const newItem = new LostItem({
       title,
       description,
-      locationName,
+      coordinates: parsedCoordinates,
       submittedBy,
       imageUrl,
       status: "Pending",
@@ -57,13 +68,21 @@ router.get("/", async (req, res) => {
 
 // ✅ 3. Get lost items for supervisor
 router.get("/supervisor", async (req, res) => {
-  const { location } = req.query;
-  if (!location) {
-    return res.status(400).json({ message: "Location is required" });
+  const { bounds } = req.query;
+  if (!bounds) {
+    return res.status(400).json({ message: "Map bounds are required" });
   }
 
   try {
-    const items = await LostItem.find({ locationName: location }).sort({ createdAt: -1 });
+    // Parse bounds from string to object
+    const { north, south, east, west } = JSON.parse(bounds);
+
+    // Find items within the bounds
+    const items = await LostItem.find({
+      'coordinates.0': { $gte: west, $lte: east },
+      'coordinates.1': { $gte: south, $lte: north }
+    }).sort({ createdAt: -1 });
+
     res.json(items);
   } catch (error) {
     console.error("❌ Error fetching supervisor items:", error);
