@@ -21,6 +21,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LostItemCard from "../components/LostItemCard";
+import LostItemsMap from "../components/LostItemsMap";
 import DashboardNavbar from "../components/DashboardNavbar";
 import HeroSpotlight from "../components/HeroSpotlight";
 import Footer1 from "../components/Footer1";
@@ -155,6 +156,15 @@ const StudentDashboard = () => {
           >
             Report New Item
           </Button>
+        </Box>
+
+        <Box sx={{ mb: 4 }}>
+          <LostItemsMap 
+            items={itemsToShow} 
+            onMarkerClick={(item) => {
+              console.log('Map marker clicked:', item);
+            }}
+          />
         </Box>
 
         <Paper elevation={2} sx={{ p: 3, mb: 4, borderRadius: 2 }}>
